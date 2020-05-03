@@ -1,5 +1,24 @@
+const fs = require('fs-extra')
 const got = require('got')
 const cheerio = require('cheerio')
+const TurndownService = require('turndown')
+const { wordsToNumbers } = require('words-to-numbers');
+
+// Markdown Service
+
+const convert = new TurndownService()
+convert.addRule('img', {
+    filter: 'img',
+    replacement: content => ''
+})
+convert.addRule('blockquote', {
+    filter: 'blockquote',
+    replacement: content => {
+        content = content.replace(/^\n+|\n+$/g, '')
+        return '\n\n' + content + '\n\n'    
+    }
+})
+
 
 // Links
 const links_SPC = [
@@ -36,19 +55,23 @@ for (let i = 1, k = 22; i < k; i++) {
 
                 const regex = /chapter \d(\d?)/gi
 
-                const content = $(elem).find('.postrow').text()
+                const content = $(elem).find('.postrow')
+                const contentText = content.text()
+                const contentHTML = content.html()
+
+                const contentMarkdown = convert.turndown(contentHTML)
 
                 const title = $(elem).find('h2').text().replace(/(\r\n|\n|\r)/gm, "").trim()
                 const altTitle = 
-                    content 
-                    && content.match(regex)
-                    && content.match(regex)[0]
+                    contentText 
+                    && contentText.match(regex)
+                    && contentText.match(regex)[0]
 
                 data.push({
                     title: title,
                     altTitle: altTitle,
                     translator: username, 
-                    content: content
+                    content: contentMarkdown
                 })
             })
         })
@@ -84,16 +107,36 @@ for (let i = 1, k = 22; i < k; i++) {
             $('p.MsoNormal').wrapAll($('<div class="content"></div>'))
             const content = $('.content').html()
 
+            const contentMarkdown = convert.turndown(content)
+
             data.push({
                 title: title,
                 altTitle: null,
                 translator: 'Lanny',
-                content: content
+                content: contentMarkdown
             })
         })
         
-        // Return data
-        console.log(data)
+        // Create markdown file
+        data.forEach(item => {
+            const selectedTitle = item.title ? item.title : item.altTitle
+            
+            let chapter, chapterReplace, chapterNumber
+
+            const chapterMatch = selectedTitle.match(/chapter \b(\w*)/gi)
+            if (chapterMatch) {
+                chapter = chapterMatch[0] // get first results from chapter match
+                chapterReplace = chapter.replace(/chapter /gi, '') // strips "chapter "
+                chapterNumber = wordsToNumbers(chapterReplace).toString() // converts sixteen to 16 + gets string
+            }
+            
+            const filename = chapter 
+                ? `chapter-${chapterNumber}`
+                : 'index'
+
+            fs.outputFileSync(`${__dirname}/dist/${filename}.md`,
+                `---\ntitle: ${selectedTitle}\nauthor: Jin Yong (Louis Cha)\ntranslator: ${item.translator}\nchapter: ${chapter}\ndate: October 12, 1969\n---\n${item.content}`)
+        })
     } catch (error) {
         console.log(error)
     }
