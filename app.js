@@ -81,7 +81,8 @@ for (let i = 1, k = 22; i < k; i++) {
                 const contentText = content.text()
                 let contentHTML = content.html()
                 contentHTML = contentHTML.replace('“', '"')
-                contentHTML = contentHTML.replace('”', '"')  
+                contentHTML = contentHTML.replace('”', '"')
+                contentHTML = contentHTML.replace('�', '')            
 
                 const contentMarkdown = convert.turndown(contentHTML)
 
@@ -133,6 +134,7 @@ for (let i = 1, k = 22; i < k; i++) {
 
             content = content.replace('“', '"')
             content = content.replace('”', '"')            
+            content = content.replace('�', '')            
             
             const contentMarkdown = convert.turndown(content)
 
