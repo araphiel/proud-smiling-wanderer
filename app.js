@@ -157,8 +157,11 @@ for (let i = 1, k = 22; i < k; i++) {
                 ? `chapter-${chapterNumber}`
                 : 'index'
 
+            let content = item.content.replace('“', '')
+                content = item.content.replace('”', '')
+                
             fs.outputFileSync(`${__dirname}/dist/markdown/${filename}.md`,
-                `\n\n# ${selectedTitle}\n\n${item.content}`)
+                `\n\n# ${selectedTitle}\n\n${content}`)
         })
     } catch (error) {
         console.log(error)
