@@ -154,7 +154,7 @@ for (let i = 1, k = 22; i < k; i++) {
                 ? `chapter-${chapterNumber}`
                 : 'index'
 
-            let content = item.content.replace('�', '')
+            let content = item.content.replace(/\uFFFD/g, '')
                 content = item.content.replace('“', '"')
                 content = item.content.replace('”', '"') 
 
