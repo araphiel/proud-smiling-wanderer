@@ -25,7 +25,8 @@ convert.addRule('footnote', {
         }
     },
     replacement: function (content, node) {
-        return `[^${content}]`
+        let matched = content.slice(2, content.length - 2)
+        return `[^${matched}]`
     }
 })
 
