@@ -158,7 +158,7 @@ for (let i = 1, k = 22; i < k; i++) {
                 : 'index'
 
             fs.outputFileSync(`${__dirname}/dist/markdown/${filename}.md`,
-                `# ${selectedTitle}\n\n${item.content}`)
+                `\n\n# ${selectedTitle}\n\n${item.content}`)
         })
     } catch (error) {
         console.log(error)
