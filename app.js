@@ -6,6 +6,7 @@ const { wordsToNumbers } = require('words-to-numbers');
 
 // Markdown Service
 
+let cache = []
 const convert = new TurndownService()
 convert.addRule('img', {
     filter: 'img',
@@ -25,8 +26,18 @@ convert.addRule('footnote', {
         }
     },
     replacement: function (content, node) {
-        let matched = content.slice(2, content.length - 2)
-        return `[^${matched}]`
+        let footnote = content.slice(2, content.length - 2)
+        const cacheIncludes = cache.includes(footnote)
+
+        if (cacheIncludes) {
+            const index = cache.indexOf(footnote)
+            if (index > -1) cache.splice(index, 1)
+            return `[^${footnote}]:`
+        }
+
+        cache.push(footnote)
+
+        return `[^${footnote}]`        
     }
 })
 
@@ -89,7 +100,7 @@ for (let i = 1, k = 22; i < k; i++) {
 
         // Lannyland Pages
         const pages_Lanny = await getPages(links_Lanny)
-        pages_Lanny.forEach(page => {
+        pages_Lanny.forEach((page, idx) => {
             let $ = cheerio.load(page)
 
             $.prototype.wrapAll = function (wrapper) {
@@ -114,10 +125,11 @@ for (let i = 1, k = 22; i < k; i++) {
             }
 
             const title = $('h1').text().replace(/ \((final|draft)\)/gi, '')
-
+            
             $('p.MsoNormal').wrapAll($('<div class="content"></div>'))
+            $('.content a').addClass(`page-${idx}`)
             const content = $('.content').html()
-
+            
             const contentMarkdown = convert.turndown(content)
 
             data.push({
