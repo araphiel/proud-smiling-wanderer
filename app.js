@@ -80,8 +80,8 @@ for (let i = 1, k = 22; i < k; i++) {
                 const content = $(elem).find('.postrow')
                 const contentText = content.text()
                 let contentHTML = content.html()
-                contentHTML.replace('“', "'")
-                contentHTML.replace('”', "'")  
+                contentHTML = contentHTML.replace('“', '"')
+                contentHTML = contentHTML.replace('”', '"')  
 
                 const contentMarkdown = convert.turndown(contentHTML)
 
@@ -131,8 +131,8 @@ for (let i = 1, k = 22; i < k; i++) {
             $('.content a').addClass(`page-${idx}`)
             let content = $('.content').html()
 
-            content.replace('“', "'")
-            content.replace('”', "'")            
+            content = content.replace('“', '"')
+            content = content.replace('”', '"')            
             
             const contentMarkdown = convert.turndown(content)
 
