@@ -158,7 +158,7 @@ for (let i = 1, k = 22; i < k; i++) {
                 : 'index'
 
             fs.outputFileSync(`${__dirname}/dist/markdown/${filename}.md`,
-                `---\ntitle: "${selectedTitle}"\nauthor: Jin Yong (Louis Cha)\ntranslator: ${item.translator}\nchapter: ${chapter}\ndate: October 12, 1969\n---\n${item.content}`)
+                `# ${selectedTitle}\n\n${item.content}`)
         })
     } catch (error) {
         console.log(error)
