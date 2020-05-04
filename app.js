@@ -18,6 +18,16 @@ convert.addRule('blockquote', {
         return '\n\n' + content + '\n\n'    
     }
 })
+convert.addRule('footnote', {
+    filter: function (node) {
+        if (node.nodeName === 'A' && node.href.includes("#_ftn")) {
+            return node.getAttribute('href')
+        }
+    },
+    replacement: function (content, node) {
+        return `[^${content}]`
+    }
+})
 
 
 // Links
