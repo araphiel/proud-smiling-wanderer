@@ -15,11 +15,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get install pandoc;
-        npm ci;
-        npm run build;
+    - name: Install Pandoc
+      run: sudo apt-get install pandoc
+    
+    - name: Install Node Deps
+      run: npm ci
+    
+    - name: Build
+      run: mkdir dist && npm run build
         
     - name: Download EPUB
       uses: actions/download-artifact@v2
