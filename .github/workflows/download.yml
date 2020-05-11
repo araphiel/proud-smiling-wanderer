@@ -26,12 +26,31 @@ jobs:
 
             - name: Run Pandoc
               run: pandoc -o ${GITHUB_WORKSPACE}/dist/smiling-proud-wanderer.epub ${GITHUB_WORKSPACE}/metadata.yaml ${GITHUB_WORKSPACE}/dist/markdown/index.md ${GITHUB_WORKSPACE}/dist/markdown/chapter-{1..40}.md --css epub.css --epub-chapter-level=2
-            
-            - name: Check Dir
-              run: ls
 
-            - name: Download EPUB
-              uses: actions/upload-artifact@v2
+            # - name: Download EPUB
+            #   uses: actions/upload-artifact@v2
+            #   with:
+            #       name: "smiling-proud-wanderer.epub"
+            #       path: "dist/smiling-proud-wanderer.epub"
+
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  name: "smiling-proud-wanderer.epub"
-                  path: "dist/smiling-proud-wanderer.epub"
+                  tag_name: ${{ github.ref }}
+                  release_name: Release ${{ github.ref }}
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Asset
+              id: upload-release-asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+                  asset_path: dist/smiling-proud-wanderer.epub
+                  asset_name: smiling-proud-wanderer.epub
+                  asset_content_type: application/epub+zip
