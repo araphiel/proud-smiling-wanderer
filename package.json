@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "build": "node app.js && npm run pandoc",
-    "pandoc": "pandoc -o ./dist/smiling-proud-wanderer.epub ./metadata.yaml ./dist/markdown/index.md ./dist/markdown/chapter-{1..40}.md --css epub.css --epub-chapter-level=2"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "npm start && npm run pandoc",
+    "pandoc": "pandoc -o dist/smiling-proud-wanderer.epub metadata.yaml dist/markdown/index.md dist/markdown/chapter-{1..40}.md --css epub.css --epub-chapter-level=2"
   },
   "keywords": [],
   "author": "",
