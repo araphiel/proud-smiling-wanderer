@@ -15,11 +15,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Run a multi-line script
+    - name: Install dependencies
       run: |
-        apt-get install pandoc
-        npm ci
-        npm run build
+        sudo apt-get install pandoc;
+        npm ci;
+        npm run build;
         
     - name: Download EPUB
       uses: actions/download-artifact@v2
