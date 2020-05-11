@@ -21,8 +21,14 @@ jobs:
             - name: Install Node Deps
               run: npm ci
 
-            - name: Build
-              run: npm run build
+            - name: Create Markdown
+              run: npm start
+
+            - name: Check Dir
+              run: ls
+
+            - name: Run Pandoc
+              run: pandoc -o ${GITHUB_WORKSPACE}/dist/smiling-proud-wanderer.epub ${GITHUB_WORKSPACE}/metadata.yaml ${GITHUB_WORKSPACE}/dist/markdown/index.md ${GITHUB_WORKSPACE}/dist/markdown/chapter-{1..40}.md --css epub.css --epub-chapter-level=2
 
             - name: Download EPUB
               uses: actions/download-artifact@v2
