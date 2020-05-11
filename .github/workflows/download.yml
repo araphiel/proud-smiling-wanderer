@@ -3,29 +3,29 @@
 name: CI
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-    - name: Install Pandoc
-      run: sudo apt-get install pandoc
-    
-    - name: Install Node Deps
-      run: npm ci
-    
-    - name: Build
-      run: npm run build
-        
-    - name: Download EPUB
-      uses: actions/download-artifact@v2
-      with:
-          name: 'smiling-proud-wanderer.epub'
-          path: 'dist'
+            - name: Install Pandoc
+              run: sudo apt-get install pandoc
+
+            - name: Install Node Deps
+              run: npm ci
+
+            - name: Build
+              run: npm run build
+
+            - name: Download EPUB
+              uses: actions/download-artifact@v2
+              with:
+                  name: "smiling-proud-wanderer.epub"
+                  path: "dist"
