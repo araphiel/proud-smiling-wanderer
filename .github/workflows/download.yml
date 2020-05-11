@@ -34,4 +34,4 @@ jobs:
               uses: actions/download-artifact@v2
               with:
                   name: "smiling-proud-wanderer.epub"
-                  path: "dist"
+                  path: "dist/smiling-proud-wanderer.epub"
