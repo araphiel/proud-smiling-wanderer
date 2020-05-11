@@ -24,14 +24,11 @@ jobs:
             - name: Create Markdown
               run: npm start
 
-            - name: Check Dir
-              run: ls
-
             - name: Run Pandoc
               run: pandoc -o ${GITHUB_WORKSPACE}/dist/smiling-proud-wanderer.epub ${GITHUB_WORKSPACE}/metadata.yaml ${GITHUB_WORKSPACE}/dist/markdown/index.md ${GITHUB_WORKSPACE}/dist/markdown/chapter-{1..40}.md --css epub.css --epub-chapter-level=2
 
             - name: Download EPUB
-              uses: actions/download-artifact@v2
+              uses: actions/upload-artifact@v2
               with:
                   name: "smiling-proud-wanderer.epub"
-                  path: "dist/smiling-proud-wanderer.epub"
+                  path: "${GITHUB_WORKSPACE}/dist/smiling-proud-wanderer.epub"
