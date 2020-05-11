@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run a multi-line script
+      run: |
+        apt-get install pandoc
+        npm ci
+        npm run build
+        
+    - name: Download EPUB
+      uses: actions/download-artifact@v2
+      with:
+          name: 'smiling-proud-wanderer.epub'
+          path: 'dist'
