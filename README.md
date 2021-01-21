@@ -1,4 +1,9 @@
-# Smiling Proud Wanderer Ebook
+# The Smiling, Proud Wanderer
+
+_Author: Jin Yong (Louis Cha)_ \
+_Published:12 October 1969_
+
+![](https://upload.wikimedia.org/wikipedia/en/9/9f/The_Smiling%2C_Proud_Wanderer_%28%E7%AC%91%E5%82%B2%E6%B1%9F%E6%B9%96%29.jpg)
 
 ## Download
 
